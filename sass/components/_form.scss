@@ -1,0 +1,107 @@
+.form {
+  &__group {
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__input {
+    font-size: 1.5rem;
+    // html input不會自動繼承父元素的屬性， 所以要手動加上去
+    font-family: inherit;
+    color: inherit;
+    padding: 1.5rem 2rem;
+    border: none;
+    border-radius: 2px;
+    background-color: rgba($color-white, 0.5);
+    // 下面focus後產生的border的長度會使下面email輸入欄位移往下掉3px，解決方法是初始也加上border，只是顏色設為透明
+    border-bottom: 3px solid transparent;
+    width: 90%;
+    display: block;
+    transition: all 0.3s;
+
+    @include respond(tab-port) {
+      width: 100%;
+    }
+
+    &:focus {
+      outline: none;
+      // outline拿掉 但使用者這樣就不太知道目前位於(focus)哪個元件，因此加上一些效果來讓使用者知道
+      box-shadow: 0 1rem 2rem rgba($color-black, 0.1);
+      border-bottom: 3px solid $color-primary;
+    }
+
+    &:focus:invalid {
+      border-bottom: 3px solid $color-secondary-dark;
+    }
+
+    &::-webkit-input-placeholder {
+      color: $color-gray-dark-2;
+    }
+  }
+
+  &__label {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 0.7rem;
+    margin-left: 2rem;
+    transition: all 1s;
+  }
+
+  &__input:placeholder-shown + label {
+    // 不加opcaity只加visibility => 動畫沒有效果
+    // 加opcaity不加visibility => 文字隱藏，但行為還在像是click、hover等
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-4rem);
+  }
+
+  &__radio-group {
+    display: inline-block;
+    width: 49%;
+
+    @include respond(tab-port) {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__radio-input {
+    display: none;
+  }
+
+  &__radio-label {
+    font-size: $default-font-size;
+    cursor: pointer;
+  }
+
+  &__radio-button {
+    width: 3rem;
+    height: 3rem;
+    border: 5px solid $color-primary;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1rem;
+    position: relative;
+
+    &::after {
+      @include center;
+
+      content: "";
+      width: 1.3rem;
+      height: 1.3rem;
+      display: block;
+      background-color: $color-primary;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+  }
+
+  &__radio-input:checked + label > span::after {
+    opacity: 1;
+  }
+}
